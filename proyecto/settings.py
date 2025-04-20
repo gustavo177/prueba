@@ -34,7 +34,15 @@ ALLOWED_HOSTS = ['*']
 
 # ALLOWED_HOSTS = ['crudv2-bcena2gzdbfhbfc2.mexicocentral-01.azurewebsites.net']
 # CSRF_TRUSTED_ORIGINS = ['https://*']
-CSRF_TRUSTED_ORIGINS = [os.getenv("DOMINIO")]
+# CSRF_TRUSTED_ORIGINS = [os.getenv("DOMINIO")]
+
+ALLOWED_HOSTS = [
+    'dg-h8g3bve2chafdyca.eastus2-01.azurewebsites.net',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://dg-h8g3bve2chafdyca.eastus2-01.azurewebsites.net',
+]
 
 
 # Application definition
