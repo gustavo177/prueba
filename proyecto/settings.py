@@ -30,10 +30,11 @@ SECRET_KEY = 'django-insecure-ggr_pzvt%*rh=np76hz%9r#(r4i6y8qhqx(&zh63i+an3yqybi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['crudv2-bcena2gzdbfhbfc2.mexicocentral-01.azurewebsites.net/']
+ALLOWED_HOSTS = ['*']
+
+# ALLOWED_HOSTS = ['crudv2-bcena2gzdbfhbfc2.mexicocentral-01.azurewebsites.net']
 # CSRF_TRUSTED_ORIGINS = ['https://*']
-# CSRF_TRUSTED_ORIGINS = [os.getenv("DOMINIO")]
+CSRF_TRUSTED_ORIGINS = [os.getenv("DOMINIO")]
 
 
 # Application definition
