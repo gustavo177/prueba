@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        
+        ul, span{
+            display: none;
+        }
+
+        .contenido{
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            background-color: #28a745;
+            height: 75vh;
+            margin: 20px;
+        }
+
+        .caja{
+            border: solid black;
+            border-radius: 20px;
+            padding: 15px;
+        }
+        label[for="id_username"]::after, label[for="id_password1"]::after, label[for="id_password2"]::after {
+            content: ""; /* Genera contenido vacío */
+            display: block; /* Hace que el salto de línea sea visible */
+        }
+        #id_username, #id_password1, #id_password2{
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-left: 10px;
+            border-radius: 20px;
+        }
+        button{
+            height: 35px;
+            width: 100%;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    <a href="{% url 'home' %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Home</a>
+    <a href="{% url 'login' %}" style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Login</a>
+
+    <div class="contenido">
+        <form method="post">
+            <div class="caja">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+
+
+

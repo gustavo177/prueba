@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Archivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .contenido{
+            display: flex;
+            justify-content: center;
+        }
+
+        .contenido img{
+            width: 100px; /* Ajusta el tamaño de la imagen */
+            height: 100px; /* Asegúrate de que sea cuadrada */
+            border-radius: 50%; /* Convierte la imagen en un círculo */
+            border: 2px solid red; /* Opcional: Agrega un borde */
+            object-fit: cover; /* Asegura que la imagen se recorte bien dentro del círculo */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles del Archivo</h1>
+        <div class="contenido">
+            <img src="{{archivo.archivo.url}}" alt="">
+        </div>
+        <p><strong>Nombre:</strong> {{ archivo.nombre }}</p>
+        <p><strong>Descripción:</strong> {{ archivo.descripcion }}</p>
+        <p><strong>Fecha de Subida:</strong> {{ archivo.fecha_subida }}</p>
+      
+        <br><br>
+        <a href="{% url 'welcome' user_id=user_id %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Volver</a>
+    </div>
+</body>
+</html>

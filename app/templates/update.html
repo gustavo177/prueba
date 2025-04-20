@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Archivo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            padding: 0;
+            background-color: #f4f4f9;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 99%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        img {
+            width: 100px;
+            height: 50px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: inline-block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+        .centrar{
+            display: flex;
+            justify-content: center;
+        }
+        .url-direccion {
+            display: inline-block; /* Permite aplicar text-overflow */
+            max-width: 20ch; /* Limita el ancho a 20 caracteres */
+            overflow: hidden; /* Oculta cualquier texto que exceda el ancho */
+            white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+            text-overflow: ellipsis; /* Agrega puntos suspensivos (...) al final */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Actualizar Archivo</h1>
+        <form method="post" enctype="multipart/form-data" action="{% url 'welcome' user_id=user_id %}">
+            {% csrf_token %}
+            <!-- Campo oculto con el ID del archivo -->
+            <input type="hidden" name="archivo_id_actualizando" value="{{ archivo.id }}">
+
+            <p>Nombre:</p>
+            <input type="text" name="nombre" value="{{ archivo.nombre }}">
+
+            <p>Descripción:</p>
+            <textarea name="descripcion">{{ archivo.descripcion }}</textarea>
+
+            <p>Archivo Actual:
+            <a class="url-direccion" href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.url }}</a>
+            </p>
+            <div class="centrar">
+                <img src="{{ archivo.archivo.url }}" alt="Vista previa del archivo">
+            </div>
+
+            <p>Cargar Nuevo Archivo:</p>
+            <input type="file" name="archivo">
+
+            <button type="submit">Actualizar</button>
+        </form>
+
+        <a href="{% url 'welcome' user_id=user_id %}">Cancelar</a>
+    </div>
+</body>
+</html>

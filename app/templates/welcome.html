@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Estilo para las imágenes */
+        img {
+            height: 70px; /* Altura fija para todas las imágenes */
+            width: 100%; /* Las imágenes ocuparán el 100% del ancho de su celda */
+        }
+
+        .centrado{
+            display: flex;
+            justify-content: center;
+        }
+
+        .descripcion {
+            max-width: 200px; /* Ancho máximo para la celda */
+            white-space: nowrap; /* Evita saltos de línea */
+            overflow: hidden; /* Oculta el texto que excede el ancho */
+            text-overflow: ellipsis; /* Muestra puntos suspensivos para indicar texto truncado */
+        }
+
+        .contenido{
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            background-color: #28a745;
+            margin: 20px;
+        }
+        .caja{
+            margin: 20px;
+            border: solid black;
+            border-radius: 20px;
+            padding: 15px;
+        }
+        input{
+            content: ""; /* Genera contenido vacío */
+            display: block; /* Hace que el salto de línea sea visible */
+        }
+
+        input[name="archivo"] {
+
+            width: 175px;
+            display: block;
+            margin-bottom: 10px; /* Opcional: agrega espacio entre el botón y el mensaje */
+        }
+
+        .logout, .btn {
+            all: revert; /* Restablece los estilos predeterminados del navegador */
+        }
+
+        button{
+            height: 35px;
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        input{
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-left: 10px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado con un saludo personalizado al usuario -->
+    <h1>Welcome, {{ username }}!</h1>
+
+    <!-- Formulario para cerrar sesión -->
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %} <!-- Token CSRF para seguridad -->
+        <button class="logout" type="submit">Logout</button> <!-- Botón para cerrar sesión -->
+    </form>
+
+    <!-- Formulario para subir archivos -->
+     <div class="contenido">
+         <form method="post" enctype="multipart/form-data" action="{% url 'welcome' user_id=user_id %}">
+             <div class="caja">
+                {% csrf_token %} <!-- Token CSRF para seguridad -->
+                <!-- Campo para ingresar el nombre del archivo -->
+                <p>Nombre: <input type="text" name="nombre"></p>
+                <!-- Campo para ingresar una descripción del archivo -->
+                <p>Descripción: <input type="text" name="descripcion"></p>
+                <!-- Campo para seleccionar un archivo desde el dispositivo -->
+                <p>Cargar un archivo: <input type="file" name="archivo"></p>
+                <!-- Botón para enviar el archivo al servidor -->
+                <button type="submit">Subir archivo</button>
+            </div>
+         </form>
+     </div>
+
+    <!-- Mensaje de éxito tras subir un archivo -->
+    {% if success_message %}
+    <p style="color: green;">{{ success_message }}</p> <!-- Mensaje mostrado en color verde -->
+    {% endif %}
+
+    <!-- Encabezado para la tabla de archivos -->
+    <h2>Archivos Subidos:</h2>
+
+    <!-- Tabla que muestra los archivos subidos -->
+     <div class="centrado">
+         <table border="1" >
+             <thead>
+                 <tr style="background-color: #f2f2f2;">
+                     <th style="padding: 10px;">Nombre</th> <!-- Columna para el nombre del archivo -->
+                     <th style="padding: 10px;">Descripción</th> <!-- Columna para la descripción -->
+                     <th style="padding: 10px;">Enlace</th> <!-- Columna con un enlace al archivo -->
+                     <th style="padding: 10px;">Archivo</th> <!-- Columna con una vista previa del archivo -->
+                     <th style="padding: 10px;">Operaciones Crud</th>
+
+                 </tr>
+             </thead>
+             <tbody>
+                 <!-- Iteración sobre los archivos del usuario -->
+                 {% for archivo in archivos_usuario %}
+                 <tr>
+                     <!-- Muestra el nombre del archivo -->
+                     <td style="padding: 10px;">{{ archivo.nombre }}</td>
+                     <!-- Muestra la descripción del archivo -->
+                     <td style="padding: 10px;" class="descripcion">{{ archivo.descripcion }}</td>
+                     <!-- Enlace para descargar o ver el archivo -->
+                     <td style="padding: 10px;">
+                         <a href="{{ archivo.archivo.url }}" target="_blank" style="color: #007bff; text-decoration: none;">Ver archivo</a>
+                     </td>
+                     <!-- Muestra una vista previa del archivo si es una imagen -->
+                     <td style="padding: 10px;">
+                         <img src="{{ archivo.archivo.url }}" alt=""> <!-- Imagen de vista previa -->
+                     </td>
+
+
+                     <td style="padding: 10px;">
+                        <form method="post" action="{% url 'welcome' user_id=user_id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="archivo_id" value="{{ archivo.id }}">
+                            <!-- Botón Update -->
+                            <button class="btn" type="submit" name="update_id" value="{{ archivo.id }}" style="color: rgb(0, 0, 3);">Update</button>
+                            <!-- Botón Read -->
+                            <button class="btn" type="submit" name="read_id" value="{{ archivo.id }}" style="color: rgb(0, 8, 255);">Read</button>
+                            <!-- Botón Delete -->
+                            <button class="btn" type="submit" name="delete_id" value="{{ archivo.id }}" style="color: red;">Delete</button>
+                        </form>
+                    </td>
+
+
+
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
+</body>
+</html>
